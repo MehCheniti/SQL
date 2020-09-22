@@ -28,10 +28,10 @@ SELECT filmid, title, prodyear
 FROM film
 WHERE title LIKE '%Norge%';
 
-SELECT i.filmid
-FROM filmitem i, film j
-WHERE i.filmtype LIKE '%C%' AND j.title LIKE '%Love%';
+SELECT filmid
+FROM filmitem NATURAL JOIN film
+WHERE filmitem.filmtype LIKE '%C%' AND film.title = 'Love';
 
-SELECT f.title
-FROM film f, filmlanguage l
-WHERE l.language LIKE '%Norwegian%';
+SELECT title
+FROM film NATURAL JOIN filmlanguage
+WHERE filmlanguage.language LIKE '%Norwegian%';
