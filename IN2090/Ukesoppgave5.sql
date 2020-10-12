@@ -68,6 +68,41 @@ SELECT f.title, f.prodyear, fi.filmtype
 FROM filmitem AS fi NATURAL JOIN film AS f
 WHERE prodyear = 1894;
 
-SELECT p.firstname, f.filmid
-FROM person AS p NATURAL JOIN filmparticipation AS f
+SELECT p.firstname, f.filmid, fi.title
+FROM person AS p NATURAL JOIN filmparticipation AS f NATURAL JOIN film AS fi
 WHERE f.filmid = 357076 AND p.gender LIKE '%F%' AND f.parttype LIKE '%cast%';
+
+SELECT DISTINCT p.firstname, p.lastname
+FROM person AS p INNER JOIN filmparticipation AS fp ON p.personid = fp.personid
+INNER JOIN series AS s ON s.seriesid = fp.filmid
+WHERE s.maintitle = 'South Park';
+
+SELECT DISTINCT p.firstname, p.lastname
+FROM person AS p, filmparticipation AS fp, series AS s
+WHERE s.seriesid = fp.filmid AND s.maintitle = 'South Park'
+AND p.personid = fp.personid;
+
+SELECT DISTINCT p.firstname, p.lastname
+FROM person as p NATURAL JOIN filmparticipation AS fp NATURAL JOIN series AS s
+WHERE s.seriesid = fp.filmid AND s.maintitle = 'South Park'
+AND p.personid = fp.personid;
+
+/* NATURAL JOIN joiner automatisk på attributter med samme navn, som funker bra
+mellom tabellen Person og Filmparticipation, men ikke mellom Filmparticipation
+og Series. */
+
+SELECT DISTINCT p.firstname, p.lastname, f.title, fp.parttype
+FROM person as p NATURAL JOIN film as f NATURAL JOIN filmparticipation as fp
+WHERE f.filmid = fp.filmid AND fp.parttype = 'cast'
+AND f.title = 'Harry Potter and the Goblet of Fire';
+
+SELECT DISTINCT p.firstname, p.lastname
+FROM person as p NATURAL JOIN film as f NATURAL JOIN filmparticipation as fp
+WHERE f.filmid = fp.filmid AND fp.parttype = 'cast'
+AND f.title = 'Baile Perfumado';
+
+SELECT f.title, fp.parttype
+FROM film as f NATURAL JOIN filmparticipation as fp NATURAL JOIN filmcountry
+as fc
+WHERE fp.parttype = 'director' AND f.prodyear < 1960 AND fc.country
+LIKE 'Norway';
