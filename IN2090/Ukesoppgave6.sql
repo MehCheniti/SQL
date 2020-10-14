@@ -61,3 +61,35 @@ VALUES (1720, 17);
 /* Å prøve å putte inn et ansattnummer og prosjektnummer som ikke finnes i
 ansattDeltarIProsjekt gir en foreign key error. prosjektnr i
 ansattDeltarIProsjekt må være den samme som prosjektnummer i prosjekt. */
+
+/* Oppgave 4 */
+
+SELECT kundenummer, kundenavn, kundeadresse
+FROM kunde;
+
+SELECT DISTINCT navn
+FROM prosjekt, ansatt
+WHERE prosjekt.prosjektleder = ansatt.ansattnr;
+
+SELECT ansatt.ansattnr
+FROM ansattDeltarIProsjekt, ansatt, prosjekt
+WHERE ansattDeltarIProsjekt.ansattnr = ansatt.ansattnr
+AND prosjekt.prosjektnummer = ansattDeltarIProsjekt.prosjektnr
+AND prosjekt.prosjektnavn = 'Ruter app';
+
+SELECT navn
+FROM ansattDeltarIProsjekt, ansatt, prosjekt, kunde
+WHERE prosjekt.prosjektnummer = ansattDeltarIProsjekt.prosjektnr
+AND ansattDeltarIProsjekt.ansattnr = ansatt.ansattnr
+AND prosjekt.kundenummer = kunde.kundenummer AND kunde.kundenavn = 'NSB';
+
+/* Oppgave 5 */
+
+UPDATE kunde
+SET kundenavn = 'Mehdi Cheniti SSJ4'
+WHERE kundenummer = 17;
+
+INSERT INTO kunde
+VALUES (20, 'Cheniti Mehdi', '6 Trimveien', 2730, 'Oslo');
+DELETE FROM kunde
+WHERE kundenummer = 20;
